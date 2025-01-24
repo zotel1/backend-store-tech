@@ -1,0 +1,42 @@
+## spring.application.name=tech-store
+
+spring:
+  datasource:
+    url: ${MYSQL_URL} # Define tu variable de entorno para la URL de la base de datos MySQL
+    username: ${MYSQL_USER} # Usuario de la base de datos
+    password: ${MYSQL_PASSWORD} # Contraseña de la base de datos
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  flyway:
+    enabled: true
+    locations: classpath:/db/migration # Ubicación de los scripts de migración
+    validate-on-migrate: false # Desactiva validación para facilitar ajustes en desarrollo
+  jpa:
+    hibernate:
+      ddl-auto: validate # Cambia a 'update' si necesitas que JPA actualice las tablas automáticamente
+    show-sql: true # Habilita mostrar las consultas SQL en la consola
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect # Dialecto para MySQL 8
+  server:
+    port: 8080 # Cambia el puerto del servidor si es necesario
+    error:
+      include-stacktrace: never # No incluye la traza de error en las respuestas
+
+logging:
+  level:
+    org.springframework.security: DEBUG # Nivel de logging para la seguridad
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    operations-sorter: method
+    display-request-duration: true
+    disable-swagger-default-url: true
+
+api:
+  security:
+    secret: ${JWT_SECRET:123456} # Clave secreta para JWT, con un valor por defecto
